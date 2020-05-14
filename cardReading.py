@@ -2,7 +2,7 @@
 # @Author: [FENG] <1161634940@qq.com>
 # @Date:   2020-05-12 12:35:58
 # @Last Modified by:   [FENG] <1161634940@qq.com>
-# @Last Modified time: 2020-05-14 14:19:21
+# @Last Modified time: 2020-05-14 19:51:35
 
 from imutils.perspective import four_point_transform
 import imutils
@@ -10,6 +10,8 @@ import cv2
 import matplotlib.pyplot as plt
 import sys, urllib, json
 import csv
+import os
+import re
 from PIL import Image
 
 class cardReading(object):
@@ -107,13 +109,10 @@ class cardReading(object):
         questionCnts = []
         Answer = []
 
-        cv2.imwrite("D:/Python/www/duka/2.jpg",ChQImg)
-
         for c in cnts:
             # 计算轮廓的边界框，然后利用边界框数据计算宽高比
             (x, y, w, h) = cv2.boundingRect(c)
-            if ((y>3320 and y<5400) or (y>2016 and y<3011)) and x > 400 and w > 60 and h > 30:
-            # if (w > 60 & h > 20)and y>900 and y<2000:
+            if ((y>3320 and y<5400) or (y>2016 and y<3011)) and x > 400 and x < 4730 and w > 70 and h > 30:
                 M = cv2.moments(c)
                 cX = int(M["m10"] / M["m00"])
                 cY = int(M["m01"] / M["m00"])
@@ -122,6 +121,7 @@ class cardReading(object):
                 cv2.circle(fImage, (cX, cY), 7, (255, 255, 255), -1)
                 #保存题目坐标信息
                 Answer.append((cX, cY))
+
 
         xt0=[0,700,1140,1585,2030,2470,2910,3355,3790,4240,4690,5000]
         yt0=[2144,2250,2344,2440,2540,2630,2730,2830,2920,3020,3115]
@@ -194,6 +194,15 @@ class cardReading(object):
         letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         return letter[x%(5*y)-1]
 
+    def print_all_file_path(self, init_file_path, keyword='jpg'):
+        url = []
+        for cur_dir, sub_dir, included_file in os.walk(init_file_path):
+            if included_file:
+                for file in included_file:
+                    if re.search(keyword, file):
+                        url.append(cur_dir + "\\" + file)
+        return url
+
     def judge0(self, x, y, m, n):
         # score = 20
         if n > 4140 and n < 4800:
@@ -226,19 +235,25 @@ class cardReading(object):
 
     
 if __name__=="__main__":
-    url = ['D:/Python/www/duka/image/1.jpg', 'D:/Python/www/duka/image/2.jpg', 'D:/Python/www/duka/image/3.jpg', 'D:/Python/www/duka/image/4.jpg']
     cardReading = cardReading()
+    # url = ['./image/1.jpg', './image/2.jpg', './image/3.jpg', './image/4.jpg']
+    url = cardReading.print_all_file_path("./card");
 
-    with open('names.csv', 'w') as csvfile:
-        fieldnames = list(range(1, 61))
-        fieldnames.insert(0,'学号')    
+    for x in range(0,len(url)):
+    #     # print(url[x])
+        aaaa = cardReading.reading(url[x], x)
+        print(aaaa)
 
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader() # 注意有写header操作
+    # with open('names.csv', 'w') as csvfile:
+    #     fieldnames = list(range(1, 61))
+    #     fieldnames.insert(0,'学号')    
+
+    #     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    #     writer.writeheader() # 注意有写header操作
     
-        for x in range(0,len(url)):
-            # print(url[x])
-            aaaa = cardReading.reading(url[x], x)
-            writer.writerow(aaaa)
-            print(aaaa)
+    #     for x in range(0,len(url)):
+    #         # print(url[x])
+    #         aaaa = cardReading.reading(url[x], x)
+    #         writer.writerow(aaaa)
+    #         print(aaaa)
 
