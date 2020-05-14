@@ -123,6 +123,7 @@ cnts = cv2.findContours(edged, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 # cnts = cnts[0] if imutils.is_cv2() else cnts[1]
 cnts = cnts[1] if imutils.is_cv3() else cnts[0]
 docCnt = None
+# print(cnts)
 # 确保至少有一个轮廓被找到
 if len(cnts) > 0:
     # 将轮廓按大小降序排序
@@ -140,6 +141,8 @@ if len(cnts) > 0:
             
 # 对原始图像和灰度图都进行四点透视变换
 #cv2.drawContours(image, c, -1, (0, 0, 255), 5, lineType=0)
+# print(docCnt)
+
 newimage=image.copy()
 for i in docCnt:
     cv2.circle(newimage, (i[0][0],i[0][1]), 50, (255, 0, 0), -1)
@@ -159,8 +162,10 @@ plt.imshow(newimage,cmap = 'gray')
 #plt.grid()
 #plt.subplot(122),plt.plot([(0),(1000)])
 #plt.xticks([]), plt.yticks([])
-# plt.show() # 控制显示
+plt.show() # 控制显示
 
+
+# print(docCnt.reshape(4, 2))
 
 paper = four_point_transform(image, docCnt.reshape(4, 2))
 warped = four_point_transform(gray, docCnt.reshape(4, 2))
@@ -256,7 +261,7 @@ if s==1:
 cv2.imwrite("D:/Python/www/duka/1.jpg",paper)
 
 #答案选择输出
-print(Answer)
+# print(Answer)
 IDAnswer=[]
 for i in Answer:
     for j in range(0,len(xt1)-1):
@@ -297,7 +302,7 @@ t.sort()
 print(t)
 '''
 IDAnswer.sort()
-print(IDAnswer)
+# print(IDAnswer)
 # print(len(IDAnswer))
 
 
