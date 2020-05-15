@@ -2,7 +2,7 @@
 # @Author: [FENG] <1161634940@qq.com>
 # @Date:   2020-05-12 12:35:58
 # @Last Modified by:   [FENG] <1161634940@qq.com>
-# @Last Modified time: 2020-05-14 19:51:35
+# @Last Modified time: 2020-05-15 15:35:56
 
 from imutils.perspective import four_point_transform
 import imutils
@@ -12,6 +12,7 @@ import sys, urllib, json
 import csv
 import os
 import re
+import time
 from PIL import Image
 
 class cardReading(object):
@@ -239,21 +240,26 @@ if __name__=="__main__":
     # url = ['./image/1.jpg', './image/2.jpg', './image/3.jpg', './image/4.jpg']
     url = cardReading.print_all_file_path("./card");
 
-    for x in range(0,len(url)):
-    #     # print(url[x])
-        aaaa = cardReading.reading(url[x], x)
-        print(aaaa)
+    # for x in range(0,len(url)):
+    # #     # print(url[x])
+    #     aaaa = cardReading.reading(url[x], x)
+    #     print(aaaa)
 
-    # with open('names.csv', 'w') as csvfile:
-    #     fieldnames = list(range(1, 61))
-    #     fieldnames.insert(0,'学号')    
+    with open('names.csv', 'w') as csvfile:
+        fieldnames = list(range(1, 61))
+        fieldnames.insert(0,'学号')    
 
-    #     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-    #     writer.writeheader() # 注意有写header操作
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader() # 注意有写header操作
     
-    #     for x in range(0,len(url)):
-    #         # print(url[x])
-    #         aaaa = cardReading.reading(url[x], x)
-    #         writer.writerow(aaaa)
-    #         print(aaaa)
+        for x in range(0,len(url)):
+            # print(url[x])
+            aaaa = cardReading.reading(url[x], x)
+            writer.writerow(aaaa)
+            print(aaaa)
+            # if x == len(url)-1:
+            #     print('已全部读取');
+            #     for i in range(0,3):
+            #         time.sleep(1)
+            #         print('即将关闭...%2d.....' % (3-i));
 

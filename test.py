@@ -64,8 +64,7 @@ thresh = cv2.threshold(warped, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[
 
 # find contours in the thresholded image, then initialize
 # the list of contours that correspond to questions
-cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,
-    cv2.CHAIN_APPROX_SIMPLE)
+cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 cnts = cnts[1] if imutils.is_cv3() else cnts[0]
 questionCnts = []
 
@@ -84,8 +83,7 @@ for c in cnts:
 
 # sort the question contours top-to-bottom, then initialize
 # the total number of correct answers
-questionCnts = contours.sort_contours(questionCnts,
-    method="top-to-bottom")[0]
+questionCnts = contours.sort_contours(questionCnts, method="top-to-bottom")[0]
 correct = 0
 
 # print(questionCnts)
