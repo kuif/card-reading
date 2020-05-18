@@ -2,7 +2,7 @@
 # @Author: [FENG] <1161634940@qq.com>
 # @Date:   2020-04-27 11:25:05
 # @Last Modified by:   [FENG] <1161634940@qq.com>
-# @Last Modified time: 2020-05-12 14:05:24
+# @Last Modified time: 2020-05-17 15:42:21
 # -*- coding: utf-8 -*-
 
 from imutils.perspective import four_point_transform
@@ -202,13 +202,13 @@ for x in IDAnswer:
 print(student)
 print(newIDAnswer)
 
-import csv
+# import csv
 
-with open('names.csv', 'w') as csvfile:
-    fieldnames = list(newIDAnswer.keys())
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+# with open('names.csv', 'w') as csvfile:
+#     fieldnames = list(newIDAnswer.keys())
+#     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-    writer.writeheader() # 注意有写header操作
-    writer.writerow(newIDAnswer)
-    # writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
-    # writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+#     writer.writeheader() # 注意有写header操作
+#     writer.writerow(newIDAnswer)
+#     # writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
+#     # writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})

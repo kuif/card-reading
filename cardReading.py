@@ -2,7 +2,7 @@
 # @Author: [FENG] <1161634940@qq.com>
 # @Date:   2020-05-12 12:35:58
 # @Last Modified by:   [FENG] <1161634940@qq.com>
-# @Last Modified time: 2020-05-15 15:35:56
+# @Last Modified time: 2020-05-18 12:40:26
 
 from imutils.perspective import four_point_transform
 import imutils
@@ -84,8 +84,8 @@ class cardReading(object):
         paperorign = paper
         warped = cv2.resize(warped, (5000, 7000), cv2.INTER_LANCZOS4)
 
-        ChQImg = cv2.blur(thresh, (30, 30))
-        ChQImg = cv2.threshold(ChQImg, 40, 225, cv2.THRESH_BINARY)[1]
+        ChQImg = cv2.blur(thresh, (40, 40))
+        ChQImg = cv2.threshold(ChQImg, 25, 225, cv2.THRESH_BINARY)[1]
 
         NumImg=cv2.blur(thresh,(15,15)) # 新的二值化图
         NumImg=cv2.threshold(NumImg, 170, 255, cv2.THRESH_BINARY)[1]
@@ -113,7 +113,7 @@ class cardReading(object):
         for c in cnts:
             # 计算轮廓的边界框，然后利用边界框数据计算宽高比
             (x, y, w, h) = cv2.boundingRect(c)
-            if ((y>3320 and y<5400) or (y>2016 and y<3011)) and x > 400 and x < 4730 and w > 70 and h > 30:
+            if ((y>3320 and y<5400) or (y>2090 and y<3100)) and x > 400 and x < 4730 and w > 60 and h > 20:
                 M = cv2.moments(c)
                 cX = int(M["m10"] / M["m00"])
                 cY = int(M["m01"] / M["m00"])
@@ -123,12 +123,11 @@ class cardReading(object):
                 #保存题目坐标信息
                 Answer.append((cX, cY))
 
+        xt0=[0,688,1120,1570,2005,1450,2890,3340,3783,4240,4680,5000]
+        yt0=[2090,2220,2320,2410,2510,2600,2705,2795,2900,2990,3100]
 
-        xt0=[0,700,1140,1585,2030,2470,2910,3355,3790,4240,4690,5000]
-        yt0=[2144,2250,2344,2440,2540,2630,2730,2830,2920,3020,3115]
-
-        xt1=[0,570,730,880,1025,1175,1445,1600,1745,1900,2050,2330,2470,2620,2780,2930,3090,3230,3390,3540,3700,3880,4030,4180,4335,4490,5000]
-        yt1=[3500,3620,3740,3865,3975,4140,4300,4400,4530,4645,4800,4960,5080,5200,5310,5440]
+        xt1=[0,550,715,860,1016,1165,1435,1585,1735,1880,2025,2315,2455,2610,2770,2925,3075,3225,3380,3530,3700,3860,4015,4170,4325,4480,5000]
+        yt1=[3400,3600,3725,3845,3955,4100,4280,4390,4505,4620,4785,4935,5055,5175,5290,5450]
 
         student = []
         IDAnswer = []
@@ -241,7 +240,7 @@ if __name__=="__main__":
     url = cardReading.print_all_file_path("./card");
 
     # for x in range(0,len(url)):
-    # #     # print(url[x])
+    #     # print(url[x])
     #     aaaa = cardReading.reading(url[x], x)
     #     print(aaaa)
 
@@ -257,9 +256,9 @@ if __name__=="__main__":
             aaaa = cardReading.reading(url[x], x)
             writer.writerow(aaaa)
             print(aaaa)
-            # if x == len(url)-1:
-            #     print('已全部读取');
-            #     for i in range(0,3):
-            #         time.sleep(1)
-            #         print('即将关闭...%2d.....' % (3-i));
+            if x == len(url)-1:
+                print('已全部读取');
+                for i in range(0,3):
+                    time.sleep(1)
+                    print('即将关闭...%2d.....' % (3-i));
 
